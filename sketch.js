@@ -43,7 +43,7 @@ function draw() {
      if(beatatual = 0){
        console.log("chegou");
         }
-       /*
+
        fill(200, 0, 0, 200);
     rect(i, 0, 50, 400);
     let rndaudio = random(kitname);
@@ -58,10 +58,10 @@ function draw() {
           fill(200, 0, 0, 200);
     rect(i, 0, 50, 400);
         }
-        */
 
 
-  //console.log(beatatual);
+
+  console.log(beatatual);
 
   } }
 function mouseClicked(){
