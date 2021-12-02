@@ -7,4 +7,7 @@ Experimentos e estudos de criação de plataforma para criação sonora usando P
 
 Programa Pibiartes Ufba 2021/2022
 
+https://github.com/cristianofigo/musica_movel_web/wiki
+
+
 
