@@ -2,7 +2,7 @@ let sceneNum = 0;
 
 let slidervol1, slidervol2, slidervol3, slidervol4;
 
-let numslices = 8;
+let numslices = 16;
 let numtracks = 4;
 let margeml = 50;
 let margemr = 50;
@@ -26,11 +26,11 @@ let altura_telatotal;
 
 let beatatual = 0;
 let beat = 0;
-let numsteps = 8;
+let numsteps = 16;
 let bpm = 125;
 let playstart;
 Tone.Transport.bpm.value = bpm;
-Tone.Transport.scheduleRepeat(funcstep, "1m");
+Tone.Transport.scheduleRepeat(funcstep, "2m");
 let sr = 44100;
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -282,7 +282,7 @@ function desenhaondas(){
   drawBuffer(larg_tracks,alt_tracks , audio4, margeml, margemu+(alt_tracks*3));
   
   tempototal = data1.length/sr;
-  temposlice = tempototal/4;
+  temposlice = tempototal/16;
   
   
   
