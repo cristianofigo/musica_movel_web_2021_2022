@@ -1,7 +1,0 @@
-/*
-function funcplay(){
-}
-
-function funcplayrnd(){
-}
-*/

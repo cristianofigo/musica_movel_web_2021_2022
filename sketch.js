@@ -1,333 +1,284 @@
-//Teste Leon
-
-let sceneNum = 0;
-
-let slidervol1, slidervol2, slidervol3, slidervol4;
-
-let numslices = 16;
-let numtracks = 4;
-let margeml = 50;
-let margemr = 50;
-let margemu = 50;
-let margemd = 50;
-let dist_vert_tracks = 10;
-let altura;
-let size_slice;
-let audio1, audio2, audio3, audio4, audio5;
+let gui;
+let b;//play transport global
+let s; //slider BPM
+let f1, f2, f3, f4; //slider nº fatias (tem q ser por canal)
+let play1, play2, play3, play4;//play de cada canal
+let audio1, audio2, audio3, audio4; //tone.player cada canal
 let data1 = [];
-let data2 = [];
+let data2 =[];
 let data3 = [];
-let data4 = [];
-let tempototal1, temposlice1;
-let tempototal2, temposlice2;
-let tempototal3, temposlice3;
-let tempototal4, temposlice4;
-let larg_tracks;
-let alt_tracks;
-let altura_telatotal;
+let data4 = []; //array de audio
+let sequencia1 = [];
+let sequencia2 = [];
+let sequencia3 = [];
+let sequencia4 = [];
+let pontosloops1 = [];
+let pontosloops2 = [];
+let pontosloops3 = [];
+let pontosloops4 = [];
 
-let beatatual = 0;
-let beat = 0;
-let numsteps = 16;
-let bpm = 125;
-let playstart;
-Tone.Transport.bpm.value = bpm;
-Tone.Transport.scheduleRepeat(funcstep, "2m");
-let sr = 44100;
+let loopslices1 = [];
+let loopslices2 = [];
+let loopslices3 = [];
+let loopslices4 = [];
+let randloops1 =[];
+let randloops2 =[];
+let randloops3 =[];
+let randloops4 =[];
+let loopsleitura1 = [];
+let loopsleitura2 = [];
+let loopsleitura3 = [];
+let loopsleitura4 = [];
+let botrand1, botrand2, botrand3, botrand4;//aciona random p cada canal
+let indexseq1 = 0;
+let indexseq2 = 0;
+let indexseq3 = 0;
+let indexseq4 = 0;//reset loop contador
+let tempoaudio1, tempoaudio2, tempoaudio3, tempoaudio4; //sample em segundos
+let temposlice1, temposlice2, temposlice3, temposlice4;
+let numsteps1 = 8;
+let numsteps2 = 8;
+let numsteps3 = 8;
+let numsteps4 = 8;
+let maxsteps = 64;
+let BPM = 0;
+let modBPM = 1;
+let beatatual1 = 0;
+let beatatual2 = 0;
+let beatatual3 = 0;
+let beatatual4 = 0;
+let seqinicio1 = 2;
+let seqinicio2 = 2;
+let seqinicio3 = 2;
+let seqinicio4 = 2;
+let seqfim1 = 6;
+let seqfim2 = 6;
+let seqfim3 = 6;
+let seqfim4 = 6;
+let seqoffset1 = 0;
+let seqoffset2 = 0;
+let seqoffset3 = 0;
+let seqoffset4 = 0;
+let sliderseqi1, sliderseqi2, sliderseqi3, sliderseqi4;
+let sliderseqf1, sliderseqf2, sliderseqf3, sliderseqf4;
+let cntrlfiltro, filtro, onfiltro;
+let sectimeline, lockscore1, lockscore2, lockscore3, lockscore4;
+let estilo_slider1 = {};
+let mixer1, mixer2, mixer3, mixer4;
+
+let c_waves = true;
+let c_audios = false;
+let c_mixer = false;
+let c_fx = false;
+let c_aboutmusica = false;
+let c_aboutmm = false;
+let cena = 0;
+let myFont;
+let w, h;
 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx = new AudioContext();
-// Older webkit/blink browsers require a prefix
-sr = audioCtx.sampleRate;
+let sr = audioCtx.sampleRate;
 console.log(sr);
 
 function preload(){
-  /*
-   audio1 = new Tone.Player("figo_loop1_0D_teclados.ogg");
-   audio2 = new Tone.Player("figo_loop1_10_baixos.ogg");
-   audio3 = new Tone.Player("figo_loop1_1E_bateria.ogg");
-   audio4 = new Tone.Player("figo_loop1_1F_fx.ogg");
-   
-   audio1 = new Tone.Player("figo_loop2_0D_teclados.ogg");
-   audio2 = new Tone.Player("figo_loop2_10_baixos.ogg");
-   audio3 = new Tone.Player("figo_loop2_1E_bateria.ogg");
-   audio4 = new Tone.Player("figo_loop2_1F_fx.ogg");
-   
-   audio1 =  new Tone.Player("figo_loop3_0D_teclados.ogg");
-   audio2 = new Tone.Player("figo_loop3_10_baixos.ogg");
-   audio3 = new Tone.Player("figo_loop3_1E_bateria.ogg");
-   audio4 = new Tone.Player("figo_loop3_1F_fx.ogg");
+  myFont = loadFont("TT2020Base-Regular.ttf");
+  filtro = new Tone.Filter(0, "bandpass");
+  audio1 = new Tone.Player("/audios/bateria1.ogg").toDestination();
+  audio2 = new Tone.Player("/audios/baixo1.ogg").toDestination();
+  
+}
 
-    audio5 = new Tone.Player("figo_loop2_0D_teclados.ogg");
-   audio6 = new Tone.Player("figo_loop2_10_baixos.ogg");
-   audio7 = new Tone.Player("figo_loop2_1E_bateria.ogg");
-   audio8 = new Tone.Player("figo_loop2_1F_fx.ogg");
-   
-   audio9 =  new Tone.Player("figo_loop3_0D_teclados.ogg");
-   audio10 = new Tone.Player("figo_loop3_10_baixos.ogg");
-   audio11 = new Tone.Player("figo_loop3_1E_bateria.ogg");
-   audio12 = new Tone.Player("figo_loop3_1F_fx.ogg");
+function setup(){
+  //audio1.chain(filtro, Tone.Destination);
+  //audio2.chain(filtro, Tone.Destination);
+  //audio1.chain(Tone.Destination);
+  //audio2.chain(Tone.Destination);
   
-   */
+  createCanvas(windowWidth, windowHeight); 
+  w = width;
+  h = height;
   
-   audio1 =  new Tone.Player("figo_loop4_0D_teclados.ogg");
-   audio2 = new Tone.Player("figo_loop4_10_baixos.ogg");
-   audio3 = new Tone.Player("figo_loop4_1E_bateria.ogg");
-   audio4 = new Tone.Player("figo_loop4_1F_fx.ogg");
+  gui = createGui();
+  estilos();
+  menu();
+  botoes_ondas();
+  botoes_audios();
+  botoes_mixer();
+  botoes_fx();
+  
+  gui.setFont(myFont);
+  gui.setTextSize((h + w)/52);
   
   
 }
 
-function setup() {
-  createCanvas(600, 400);
-  altura_telatotal = height;
-  margeml = width/8;
-  margemr = width/12;
-  margemu = height/8;
-  margemd =  height/8;
-  
-  audio1.toDestination();
-  audio1.loop = true; //habilita loop  
-  audio1.autostart = false; // liga o audio quando roda
-  
-  audio2.toDestination();
-  audio2.loop = true; //habilita loop  
-  audio2.autostart = false; // liga o audio quando roda
-  
-  audio3.toDestination();
-  audio3.loop = true; //habilita loop  
-  audio3.autostart = false; // liga o audio quando roda
 
-  audio4.toDestination();
-  audio4.loop = true; //habilita loop  
-  audio4.autostart = false; // liga o audio quando roda
+function draw(){
+  background("#37BA91A0BF");
+  drawGui();
   
-  playstart = createButton('play');
-  playstart.position(0, height);
-  playstart.mouseClicked(funcplay);
+  sectimeline = Tone.Transport.seconds.toFixed(2);
+  let millisecond = millis();
+  if (millisecond > 200) {
+     data1 = audio1.buffer.getChannelData(0);
+     data2 = audio2.buffer.getChannelData(0);
+      }
+  tempoaudio1 = data1.length / sr;
+  temposlice1 = tempoaudio1 / numsteps1;
+  BPM = 60 / temposlice1; 
+  tempoaudio2 = data2.length / sr;
+  temposlice2 = tempoaudio2 / numsteps2;
+  scoretimeline();
+  // /* atualizações e limites dos sliders de loop
+   if(sliderseqf1.val >= numsteps1){ 
+    sliderseqf1.val = numsteps1 - 1;  
+      }
+   if(sliderseqi1.val == sliderseqf1.val){ 
+    sliderseqi1.val = sliderseqf1.val - 1;  
+      }
+   if(sliderseqf1.val == sliderseqi1.val){
+    sliderseqf1.val = sliderseqi1.val + 1;
+    }
   
-  slidervol1 = createSlider(-32, 12, 0);
-  slidervol2 = createSlider(-32, 12, 0);
-  slidervol3 = createSlider(-32, 12, 0);
-  slidervol4 = createSlider(-32, 12, 0);
-    
-  //variaveis de desenho
-  larg_tracks = width - (margeml + margemr);
-  alt_tracks = (height/numtracks) - (dist_vert_tracks - 4);
- }  
-
-function funcstep(time){
-  beatatual = beat % numsteps;
-  beat++;
+  sliderseqi1.max = numsteps1;
+  sliderseqf1.max = numsteps1;
+  seqinicio1 = sliderseqi1.val;
+  seqfim1 = sliderseqf1.val;
+  ///
+   if(sliderseqf2.val >= numsteps2){ 
+    sliderseqf2.val = numsteps2 - 1;  
+      }
+   if(sliderseqi2.val == sliderseqf2.val){ 
+    sliderseqi2.val = sliderseqf2.val - 1;  
+      }
+   if(sliderseqf2.val == sliderseqi2.val){
+    sliderseqf2.val = sliderseqi2.val + 1;
+    }
   
-  //atualiza setLoopPoints c sliceatual
- 
-  let loopini = map(beatatual, 0, numslices, 0, tempototal); 
+  sliderseqi2.max = numsteps2;
+  sliderseqf2.max = numsteps2;
+  seqinicio2 = sliderseqi2.val;
+  seqfim2 = sliderseqf2.val;
+  //
+  atualizatempos();
   
-  audio1.setLoopPoints(loopini, loopini + temposlice);
-  audio1.fadeIn = 0.02;
-  audio1.fadeOut = 0.2;
-  audio1.start();
-  
-  audio2.setLoopPoints(loopini, loopini + temposlice);
-  audio2.fadeIn = 0.02;
-  audio2.fadeOut = 0.2;
-  audio2.start();
-  
-  audio3.setLoopPoints(loopini, loopini + temposlice);
-  audio3.fadeIn = 0.02;
-  audio3.fadeOut = 0.2;
-  audio3.start();
-  
-  audio4.setLoopPoints(loopini, loopini + temposlice);
-  audio4.fadeIn = 0.02;
-  audio4.fadeOut = 0.2;
-  audio4.start();
-  console.log(loopini, loopini + temposlice);
-}
-
-function funcplay(time){
-  if(Tone.Transport.state == "started"){
-    Tone.Transport.stop();
-    audio1.stop();
-    audio2.stop();
-    audio3.stop();
-    audio4.stop();
-    playstart.html('play');
-  }
-  else{
-    //if(samples.loaded){} //pra só deixar tocar se ja carregou samples
-    Tone.Transport.start();
-   // musica.start();
-    playstart.html('stop');
-  }
-}
-
-function draw() {
-  //background(220);
-  
-  audio1.volume.value = slidervol1.value();
-  audio2.volume.value = slidervol2.value();
-  audio3.volume.value = slidervol3.value();
-  audio4.volume.value = slidervol4.value();
-  
-  
-  switch (sceneNum) {
+  switch (cena) {
 
     case 0:
-      background(255);
-      push();
-      fill(0, 0, 100, 100);
-      rect(0, 0, 50, 50); //botao muda cena
-      pop();
-      slidervol1.hide();
-      slidervol2.hide();
-      slidervol3.hide();
-      slidervol4.hide();
-      desenhaondas();
-      console.log("cena 0");
-      
-      //desenha slice atual com o beatatual
-      let sliceatual = margeml + (beatatual*size_slice);
-      push();
-      fill(0, 200, 0, 100);
-      //noFill();
-      rect(sliceatual, 200, size_slice, 100);
-      pop(); 
-      
-      //esse vai pintando o slice anterior (falta pintar o último)
-      push();
-      fill(255, 255, 255, 2);
-      noStroke();
-      //noFill();
-      rect(sliceatual - size_slice, 200, size_slice, 100);
-      pop();
-      
-      if(beatatual === 0){
-        
-      push();
-      fill(255, 255, 255, 2);
-      noStroke();
-      //noFill();
-      rect(width - (margemr + size_slice), 200, size_slice, 100); 
-      pop(); 
-   }  
-      
-      
-      break; // stop right here & exit
-
-    case 1:
-      background(220);
-      push();
-      fill(0, 0, 100, 100);
-      rect(0, 0, 50, 50); //botao muda cena
-      pop();
-      console.log('scene 1');
-      
-      
-      slidervol1.position(100, 100);
-      slidervol1.show();
-      slidervol2.position(100, 150);
-      slidervol2.show();
-      slidervol3.position(100, 200);
-      slidervol3.show();
-      slidervol4.position(100, 250);
-      slidervol4.show();
+      ondas();
       
       break;
-
-    case 2:
-      background(220, 20, 10);
-      slidervol1.hide();
-      slidervol2.hide();
-      slidervol3.hide();
-      slidervol4.hide();
-      push();
-      fill(0, 0, 100, 100);
-      rect(0, 0, 50, 50); //botao muda cena
-      pop();
-      console.log('scene 2');
       
-      push();
-      fill(0);
-      rect(150, 150, 30, 30); //desenha botão
-      /*
-      if(mouseX > 150 && mouseX < 180 && mouseY > 150 && mouseY < 180){
-        audio1 = new Tone.Player("bateria2.ogg");
-      }
-      else {
-        audio1 = new Tone.Player("bateria1.ogg");
-      } */
-      pop();
-
+      case 1:
+      audios();
       break;
-
-  }
-  
-    }
-
-function mousePressed(){
-  if(mouseX < 50 && mouseY < 50){
-  sceneNum++;
-  
-  if (sceneNum == 3){
-    sceneNum = 0;
-  }
-}
-}
-
-
-function desenhaondas(){
-  drawBuffer(larg_tracks,alt_tracks , audio1, margeml, margemu);
-  drawBuffer(larg_tracks,alt_tracks , audio2, margeml, margemu+alt_tracks);
-  drawBuffer(larg_tracks,alt_tracks , audio3, margeml, margemu+(alt_tracks*2));
-  drawBuffer(larg_tracks,alt_tracks , audio4, margeml, margemu+(alt_tracks*3));
-  
-  tempototal = data1.length/sr;
-  temposlice = tempototal/16;
-  
-  
-  
-  for(let y = 0; y < numtracks; y++){ //cria 4 pistas
-  let x =0;
-    altura = (height/numtracks) - (dist_vert_tracks - 5);
-    noFill();
- rect(x + margeml, (y * altura) + dist_vert_tracks, width - (margeml + margemr), altura);//desenha 4 pistas vazias
-    for(let s = 0; s < numslices; s++){  //cria slices
-      size_slice = ((width - (margeml + margemr)) / numslices);
-      push();
-      noFill();
-      rect((s * size_slice) + margeml, (y * altura) + dist_vert_tracks, size_slice, altura ); //desenha slices
-      pop();
-    //  
       
-           
-  }
- }
-}
-
-
-function drawBuffer( width, height, audio, x, y) {
-  let millisecond = millis();
-  if (millisecond > 200){
-   data1 = audio.buffer.getChannelData( 0 );    
-    let step = Math.ceil( data1.length / width );
-    let amp = height / 2.1;
-    for(let i=0; i < width; i++){
-        let min = 1.0;
-        let max = -1.0;
-        for (let j=0; j<step; j++) {
-            let datum = data1[(i*step)+j]; 
-            if (datum < min)
-                min = datum;
-            if (datum > max)
-                max = datum;
-        }
-  rect(i + x, (0+min)*amp + (y+(altura_telatotal/45)),1,Math.max(1,(max-min)*amp));
+      case 2:
+      mixer();
+      break;
       
+      case 3:
+      fx();
+      break;
+      
+      case 4:
+      sobre();
+      break;
+      
+      case 5:
+      mm();
+      break;
+            
     }
+}
+
+function atualizatempos(){
+  //canal1
+    for (let x = 0; x < numsteps1; x++) { //cria sequencia
+    sequencia1[x] = x;
   }
+    for (let l = 0; l < numsteps1 * 2; l++) {//sequencia loopoints;
+     pontosloops1[l] = temposlice1 * l;
+  }
+     loopslices1 = sequencia1.slice(seqinicio1, seqfim1+1);//loop de slices 
+      if (botrand1.val == true){
+       loopslices1 = shuffle(loopslices1);
+  }
+  //canal 2
+  for (let x = 0; x < numsteps2; x++) { //cria sequencia
+    sequencia2[x] = x;
+  }
+    for (let l = 0; l < numsteps2 * 2; l++) {//sequencia loopoints;
+     pontosloops2[l] = temposlice2 * l;
+  }
+     loopslices2 = sequencia2.slice(seqinicio2, seqfim2+1);//loop de slices 
+      if (botrand2.val == true){
+       loopslices2 = shuffle(loopslices2);
+  }
+     }
+
+function ondas(){
+  text("Play", w/6, h/6, 24 );
+  //function drawBuffer( audioxxx, posx, posy,width, height, beatatual, numstep, seqi, seqf)
+  drawBuffer(audio1, (w/6), (h/6)*2,  w/1.25, h/8, beatatual1, numsteps1, seqinicio1, seqfim1);
+  drawBuffer(audio2, (w/6), (h/6)*3,  w/1.25, h/8, beatatual2, numsteps2, seqinicio2, seqfim2);
 }
 
 
-   
+function audios(){
+ ellipse(w/2, h/2, 20, 20); 
+}
+
+function mixer(){
+  
+}
+
+function fx(){
+  
+}
+
+function sobre(){
+  
+}
+
+function mm(){
+  
+}
+
+const loop1 = new Tone.Loop((time) => {
+  indexseq1++;
+  indexseq1 = indexseq1 % loopslices1.length;
+  let sliceatual = loopslices1[indexseq1];
+  beatatual1 = sliceatual;
+  //console.log(sliceatual);
+  let proxslice = sliceatual + 1;
+  audio1.stop();
+  audio1.loop = true;
+  audio1.setLoopPoints(pontosloops1[sliceatual], pontosloops1[proxslice]);
+  audio1.fadeIn = 0.02;
+  audio1.fadeOut = 0.02;
+  audio1.start();
+}, temposlice1).start(); //o segredo está aqui em temposlice1 q pode ser substituido por qqer valor de tempo
+
+const loop2 = new Tone.Loop((time) => {
+  indexseq2++;
+  indexseq2 = indexseq2 % loopslices2.length;
+  let sliceatual = loopslices2[indexseq2];
+  beatatual2 = sliceatual;
+  //console.log(sliceatual);
+  let proxslice = sliceatual + 1;
+  audio2.stop();
+  audio2.loop = true;
+  audio2.setLoopPoints(pontosloops2[sliceatual], pontosloops2[proxslice]);
+  audio2.fadeIn = 0.02;
+  audio2.fadeOut = 0.02;
+  audio2.start();
+}, temposlice2).start(); //o segredo está aqui em temposlice2 q pode ser substituido por qqer valor de tempo
+
+/// Add these lines below sketch to prevent scrolling on mobile
+function touchMoved() {
+  // do some stuff
+  return false;
+}
+  
