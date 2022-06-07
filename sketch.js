@@ -84,9 +84,9 @@ console.log(sr);
 function preload(){
   myFont = loadFont("TT2020Base-Regular.ttf");
   filtro = new Tone.Filter(0, "bandpass");
-  audio1 = new Tone.Player("/audios/bateria1.ogg").toDestination();
-  audio2 = new Tone.Player("/audios/baixo1.ogg").toDestination();
-  
+  audio1 = new Tone.Player('audios/bateria1.ogg').toDestination();
+  audio2 = new Tone.Player('audios/baixo1.ogg').toDestination();
+
 }
 
 function setup(){
@@ -94,11 +94,11 @@ function setup(){
   //audio2.chain(filtro, Tone.Destination);
   //audio1.chain(Tone.Destination);
   //audio2.chain(Tone.Destination);
-  
-  createCanvas(windowWidth, windowHeight); 
+
+  createCanvas(windowWidth, windowHeight);
   w = width;
   h = height;
-  
+
   gui = createGui();
   estilos();
   menu();
@@ -106,18 +106,18 @@ function setup(){
   botoes_audios();
   botoes_mixer();
   botoes_fx();
-  
+
   gui.setFont(myFont);
   gui.setTextSize((h + w)/52);
-  
-  
+
+
 }
 
 
 function draw(){
   background("#37BA91A0BF");
   drawGui();
-  
+
   sectimeline = Tone.Transport.seconds.toFixed(2);
   let millisecond = millis();
   if (millisecond > 200) {
@@ -126,70 +126,70 @@ function draw(){
       }
   tempoaudio1 = data1.length / sr;
   temposlice1 = tempoaudio1 / numsteps1;
-  BPM = 60 / temposlice1; 
+  BPM = 60 / temposlice1;
   tempoaudio2 = data2.length / sr;
   temposlice2 = tempoaudio2 / numsteps2;
   scoretimeline();
   // /* atualizações e limites dos sliders de loop
-   if(sliderseqf1.val >= numsteps1){ 
-    sliderseqf1.val = numsteps1 - 1;  
+   if(sliderseqf1.val >= numsteps1){
+    sliderseqf1.val = numsteps1 - 1;
       }
-   if(sliderseqi1.val == sliderseqf1.val){ 
-    sliderseqi1.val = sliderseqf1.val - 1;  
+   if(sliderseqi1.val == sliderseqf1.val){
+    sliderseqi1.val = sliderseqf1.val - 1;
       }
    if(sliderseqf1.val == sliderseqi1.val){
     sliderseqf1.val = sliderseqi1.val + 1;
     }
-  
+
   sliderseqi1.max = numsteps1;
   sliderseqf1.max = numsteps1;
   seqinicio1 = sliderseqi1.val;
   seqfim1 = sliderseqf1.val;
   ///
-   if(sliderseqf2.val >= numsteps2){ 
-    sliderseqf2.val = numsteps2 - 1;  
+   if(sliderseqf2.val >= numsteps2){
+    sliderseqf2.val = numsteps2 - 1;
       }
-   if(sliderseqi2.val == sliderseqf2.val){ 
-    sliderseqi2.val = sliderseqf2.val - 1;  
+   if(sliderseqi2.val == sliderseqf2.val){
+    sliderseqi2.val = sliderseqf2.val - 1;
       }
    if(sliderseqf2.val == sliderseqi2.val){
     sliderseqf2.val = sliderseqi2.val + 1;
     }
-  
+
   sliderseqi2.max = numsteps2;
   sliderseqf2.max = numsteps2;
   seqinicio2 = sliderseqi2.val;
   seqfim2 = sliderseqf2.val;
   //
   atualizatempos();
-  
+
   switch (cena) {
 
     case 0:
       ondas();
-      
+
       break;
-      
+
       case 1:
       audios();
       break;
-      
+
       case 2:
       mixer();
       break;
-      
+
       case 3:
       fx();
       break;
-      
+
       case 4:
       sobre();
       break;
-      
+
       case 5:
       mm();
       break;
-            
+
     }
 }
 
@@ -201,7 +201,7 @@ function atualizatempos(){
     for (let l = 0; l < numsteps1 * 2; l++) {//sequencia loopoints;
      pontosloops1[l] = temposlice1 * l;
   }
-     loopslices1 = sequencia1.slice(seqinicio1, seqfim1+1);//loop de slices 
+     loopslices1 = sequencia1.slice(seqinicio1, seqfim1+1);//loop de slices
       if (botrand1.val == true){
        loopslices1 = shuffle(loopslices1);
   }
@@ -212,7 +212,7 @@ function atualizatempos(){
     for (let l = 0; l < numsteps2 * 2; l++) {//sequencia loopoints;
      pontosloops2[l] = temposlice2 * l;
   }
-     loopslices2 = sequencia2.slice(seqinicio2, seqfim2+1);//loop de slices 
+     loopslices2 = sequencia2.slice(seqinicio2, seqfim2+1);//loop de slices
       if (botrand2.val == true){
        loopslices2 = shuffle(loopslices2);
   }
@@ -227,23 +227,23 @@ function ondas(){
 
 
 function audios(){
- ellipse(w/2, h/2, 20, 20); 
+ ellipse(w/2, h/2, 20, 20);
 }
 
 function mixer(){
-  
+
 }
 
 function fx(){
-  
+
 }
 
 function sobre(){
-  
+
 }
 
 function mm(){
-  
+
 }
 
 const loop1 = new Tone.Loop((time) => {
@@ -281,4 +281,3 @@ function touchMoved() {
   // do some stuff
   return false;
 }
-  
