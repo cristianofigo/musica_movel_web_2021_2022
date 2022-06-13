@@ -16,6 +16,6 @@ testes/exemplos: https://editor.p5js.org/cristianofigo/collections/-JSP_WZJn
 Wiki: https://github.com/cristianofigo/musica_movel_web/wiki
 
 
-Cristiano Figueiró e Leonardo Oliveira
+Cristiano Figueiró, Letícia Mayni e Leonardo Oliveira
 
 Edital Pibiartes 2021/2022 ProExt/UFBA
