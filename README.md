@@ -9,7 +9,7 @@ P5.js : https://p5js.org/
 
 p5.touchgui : https://l05.github.io/p5.touchgui/
 
-molho extra : https://github.com/cristianofigo/musica_movel_web
+molho extra : http://cristianofigo.github.io/musica_movel_web/
 
 testes/exemplos: https://editor.p5js.org/cristianofigo/collections/-JSP_WZJn
 
