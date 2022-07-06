@@ -1,6 +1,8 @@
 # musica_movel_web
-Música Móvel 
-![image](https://user-images.githubusercontent.com/50990/173410109-f78c456a-bf04-489c-b95d-9c00e8ae5f60.png)
+Música Móvel
+Projeto de criação de interfaces sonoras pra web.
+
+![image](https://user-images.githubusercontent.com/50990/177564010-f252977b-76fc-488e-b431-3dcb4c58a121.gif)
 Feito com:
 
 Tone.js : https://tonejs.github.io/
