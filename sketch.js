@@ -118,7 +118,7 @@ function draw(){
   background("#37BA91A0BF");
   drawGui();
 
-  sectimeline = Tone.Transport.seconds.toFixed(2);
+  sectimeline = Tone.Transport.position;
   let millisecond = millis();
   if (millisecond > 200) {
      data1 = audio1.buffer.getChannelData(0);
